@@ -81,7 +81,6 @@ int main(){
         tau = -log(r1) / a0;
         t  += tau;
 
-        /* --- reaction selection (0-based, bounded) --- */
         tol = a[0];
         mu  = 0;
         while (mu < 2*NP - 1 && r2*a0 > tol){
@@ -90,19 +89,19 @@ int main(){
         }
 
         if (mu < NP){
-            /* birth: move newborn to a neighbouring subpopulation */
+          
             int i      = mu;
             int offset = (rand() % 3) - 1;
             int dest   = (i + offset + NP) % NP;
             X[dest] += 1;
         } else {
-            /* death: guard against negative population */
+     
             int victim = mu - NP;
             if (X[victim] > 0)
                 X[victim] -= 1;
         }
 
-        /* --- transition updates --- */
+        
         if (t > tchange && trans == 0){
             trans = 1;
             for (int i = 0; i < NP; i++){
@@ -115,7 +114,6 @@ int main(){
             }
         }
 
-        /* --- mean threshold --- */
         Xtot = 0.0;
         sum  = 0.0;
         for (int i = 0; i < NP; i++){
@@ -123,7 +121,7 @@ int main(){
             sum  += X[i] * T[i];
         }
 
-        if (Xtot <= 0.0) break;   /* total extinction */
+        if (Xtot <= 0.0) break; 
         Tmed = sum / Xtot;
 
         if (n % rpd == 0){
